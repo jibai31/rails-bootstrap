@@ -26,3 +26,4 @@ doc/
 .idea
 .secret
 heroku_env.rb
+.vagrant
