@@ -15,23 +15,54 @@
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li class="dropdown-header">Nav header</li>
-            <li><a href="#">Separated link</a></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li class="dropdown-header">Nav header</li>
+          <li><a href="#">Separated link</a></li>
+          <li><a href="#">One more separated link</a></li>
+        </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="../navbar/">Default</a></li>
-        <li class="active"><a href="./">Static top</a></li>
-        <li><a href="../navbar-fixed-top/">Fixed top</a></li>
-      </ul>
-    </div>
+        <% if user_signed_in? %>
+          <li>
+          <%= link_to "#", class: "navbar-avatar" do %>
+            <%= image_tag current_user.avatar %>
+            &nbsp;<%= current_user.name %>
+          <% end %>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to 'Se déconnecter', destroy_user_session_path, :method => :delete, data: { confirm: "Etes-vous sûr de vouloir vous déconnecter ?" } %> </li>
+            </ul>
+          </li>
+        </ul>
+      <% else %>
+        <li><%= link_to "S'enregistrer", '#', 'data-toggle' => "modal", 'data-target' => "#signinModal" %></li>
+      <% end %>
+    </ul>
   </div>
 </div>
+</div>
+
+<!-- Sign in form -->
+<% unless user_signed_in? %>
+  <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="signinModalLabel">Enregistrez-vous</h4>
+        </div>
+        <div class="modal-body">
+          <%= render 'shared/signin_links' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
